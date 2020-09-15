@@ -11,15 +11,15 @@ namespace RESTDemoReal.Controllers
 {
     
 
-    [Route("api/[controller]")]
+    [Route("api/Items")]
     [ApiController]
     public class ItemsController : ControllerBase
     {
         private static List<Item> _data = new List<Item>()
         {
-            new Item(1, "dims", "good", 16),
-            new Item(2, "ding", "fine", 13),
-            new Item(3, "dums", "perfect", 12)
+            new Item(1, "dims", "Low", 16),
+            new Item(2, "ding", "Middle", 13),
+            new Item(3, "dums", "High", 12)
         };
 
         // GET: api/<ItemsController>
@@ -30,7 +30,8 @@ namespace RESTDemoReal.Controllers
         }
 
         // GET api/<ItemsController>/5
-        [HttpGet("{id}")]
+        [HttpGet]
+        [Route("{id}")]
         public Item Get(int id)
         {
             return _data.Find(d => d.Id == id);
@@ -44,7 +45,8 @@ namespace RESTDemoReal.Controllers
         }
 
         // PUT api/<ItemsController>/5
-        [HttpPut("{id}")]
+        [HttpPut]
+        [Route("{id}")]
         public void Put(int id, [FromBody] Item value)
         {
             Item item = Get(id);
@@ -58,7 +60,8 @@ namespace RESTDemoReal.Controllers
         }
 
         // DELETE api/<ItemsController>/5
-        [HttpDelete("{id}")]
+        [HttpDelete]
+        [Route("{id}")]
         public void Delete(int id)
         {
             Item item = Get(id);
@@ -66,6 +69,20 @@ namespace RESTDemoReal.Controllers
             {
                 _data.Remove(item);
             }
+        }
+
+        [HttpGet]
+        [Route("Name/{substring}")]
+        public IEnumerable<Item> GetFromSubstring(String substring)
+        {
+            return _data.FindAll(i => i.Name.Contains(substring));
+        }
+
+        [HttpGet]
+        [Route("Quality/{substring}")]
+        public IEnumerable<Item> GetFromQuality(String substring)
+        {
+            return _data.FindAll(i => i.Quality.Contains(substring));
         }
     }
 }
