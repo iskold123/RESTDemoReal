@@ -71,6 +71,7 @@ namespace RESTDemoReal.Controllers
             }
         }
 
+        //http://localhost:58616/api/Items/Name/d
         [HttpGet]
         [Route("Name/{substring}")]
         public IEnumerable<Item> GetFromSubstring(String substring)
@@ -78,11 +79,20 @@ namespace RESTDemoReal.Controllers
             return _data.FindAll(i => i.Name.Contains(substring));
         }
 
+        //http://localhost:58616/api/Items/Quality/i
         [HttpGet]
         [Route("Quality/{substring}")]
         public IEnumerable<Item> GetFromQuality(String substring)
         {
             return _data.FindAll(i => i.Quality.Contains(substring));
+        }
+
+        //http://localhost:58616/api/Items/Search?HighQuantity=15&LowQuantity=12
+        [HttpGet]
+        [Route("Search")]
+        public IEnumerable<Item> GetWithFilter([FromQuery] FilterItem filter)
+        {
+            return _data.FindAll(i => i.Quantity > filter.LowQuantity && i.Quantity < filter.HighQuantity);
         }
     }
 }
