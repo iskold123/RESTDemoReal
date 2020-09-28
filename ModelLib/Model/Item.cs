@@ -50,7 +50,7 @@ namespace ModelLib.Model
 
         public override string ToString()
         {
-            return "";
+            return $"{nameof(Id)}: {Id}, {nameof(Name)}: {Name}, {nameof(Quality)}: {Quality}, {nameof(Quantity)}: {Quantity}";
         }
     }
 }
